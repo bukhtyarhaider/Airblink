@@ -1,16 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { getAuth, RecaptchaVerifier } from "firebase/auth";
 import "./Login.css";
+import { app } from "../Firebase/Firebase";
 
 export const Login = () => {
+  const auth = getAuth(app);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [showOtp, setShowOtp] = useState(false);
   const [verificationCode, setVerificationCode] = useState("");
 
-  const verifyCode = () => {};
+  const verifyCode = (e) => {
+    e.preventDefault();
+  };
 
-  const sendCode = () => {
+  const sendCode = async (e) => {
+    e.preventDefault();
     setShowOtp(true);
   };
+
+  useEffect(() => {
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        "recaptcha-container",
+        {
+          size: "invisible",
+          callback: (response) => {},
+          "expired-callback": () => {
+            console.log("error");
+          },
+        },
+        auth
+      );
+    }
+  }, []);
 
   return (
     <div>
@@ -43,6 +65,7 @@ export const Login = () => {
           </form>
         </>
       )}
+      <div id="recaptcha-container"></div>
     </div>
   );
 };
