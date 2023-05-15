@@ -12,9 +12,21 @@ export const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState("+923410988683");
   const [showOtp, setShowOtp] = useState(false);
   const [verificationCode, setVerificationCode] = useState("");
+  const [confirmationResult, setConfirmationResult] = useState(null);
 
   const verifyCode = (e) => {
     e.preventDefault();
+
+    if (confirmationResult) {
+      confirmationResult
+        .confirm(verificationCode)
+        .then((result) => {
+          console.log(result.user);
+        })
+        .catch((error) => {
+          console.log(`Code not confirmed ${error.message}`);
+        });
+    }
   };
 
   const sendVerificationCode = async (e) => {
