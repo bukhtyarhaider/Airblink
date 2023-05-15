@@ -9,13 +9,15 @@ import { app } from "../Firebase/Firebase";
 
 export const Login = () => {
   const auth = getAuth(app);
-  const [phoneNumber, setPhoneNumber] = useState("+923410988683");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [showOtp, setShowOtp] = useState(false);
   const [verificationCode, setVerificationCode] = useState("");
   const [confirmationResult, setConfirmationResult] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const verifyCode = (e) => {
     e.preventDefault();
+    setErrorMessage("");
 
     if (confirmationResult) {
       confirmationResult
@@ -24,13 +26,14 @@ export const Login = () => {
           console.log(result.user);
         })
         .catch((error) => {
-          console.log(`Code not confirmed ${error.message}`);
+          setErrorMessage(`Code not confirmed ${error.message}`);
         });
     }
   };
 
   const sendVerificationCode = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
 
     signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier)
       .then((confirmationResult) => {
@@ -38,7 +41,7 @@ export const Login = () => {
         setConfirmationResult(confirmationResult);
       })
       .catch((error) => {
-        console.log(`SMS not sent ${error.message}`);
+        setErrorMessage(`SMS not sent ${error.message}`);
       });
   };
 
@@ -60,6 +63,11 @@ export const Login = () => {
 
   return (
     <div>
+      {!!errorMessage && (
+        <div className="error_container">
+          <p className="error"> {errorMessage}</p>
+        </div>
+      )}
       {!showOtp && (
         <form onSubmit={sendVerificationCode} className="box">
           <label>

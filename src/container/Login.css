@@ -10,3 +10,13 @@
   background-color: antiquewhite;
   border-radius: 1em;
 }
+
+.error {
+  color: red;
+}
+
+.error_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
