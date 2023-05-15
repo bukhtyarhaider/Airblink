@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { getAuth, RecaptchaVerifier } from "firebase/auth";
+import {
+  getAuth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+} from "firebase/auth";
 import "./Login.css";
 import { app } from "../Firebase/Firebase";
 
 export const Login = () => {
   const auth = getAuth(app);
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("+923410988683");
   const [showOtp, setShowOtp] = useState(false);
   const [verificationCode, setVerificationCode] = useState("");
 
@@ -13,9 +17,17 @@ export const Login = () => {
     e.preventDefault();
   };
 
-  const sendCode = async (e) => {
+  const sendVerificationCode = async (e) => {
     e.preventDefault();
-    setShowOtp(true);
+
+    signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier)
+      .then((confirmationResult) => {
+        setShowOtp(true);
+        setConfirmationResult(confirmationResult);
+      })
+      .catch((error) => {
+        console.log(`SMS not sent ${error.message}`);
+      });
   };
 
   useEffect(() => {
@@ -37,7 +49,7 @@ export const Login = () => {
   return (
     <div>
       {!showOtp && (
-        <form onSubmit={sendCode} className="box">
+        <form onSubmit={sendVerificationCode} className="box">
           <label>
             Phone Number:
             <input
