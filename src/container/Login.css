@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  height: 20vh;
+  padding: 5em;
+  background-color: antiquewhite;
+  border-radius: 1em;
+}
