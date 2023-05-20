@@ -3,6 +3,7 @@ import {
   getAuth,
   RecaptchaVerifier,
   signInWithPhoneNumber,
+  onAuthStateChanged,
 } from "firebase/auth";
 import "./Login.css";
 import { app } from "../Firebase/Firebase";
@@ -14,6 +15,8 @@ export const Login = () => {
   const [verificationCode, setVerificationCode] = useState("");
   const [confirmationResult, setConfirmationResult] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [user, setUser] = useState(null);
+  const [disabled, setDisabled] = useState(true);
 
   const verifyCode = (e) => {
     e.preventDefault();
@@ -23,9 +26,13 @@ export const Login = () => {
       confirmationResult
         .confirm(verificationCode)
         .then((result) => {
+          setUser(result.user);
           console.log(result.user);
+          console.log(result.user.phoneNumber);
+          console.log(result.user.uid);
         })
         .catch((error) => {
+          setDisabled(false);
           setErrorMessage(`Code not confirmed ${error.message}`);
         });
     }
@@ -46,6 +53,10 @@ export const Login = () => {
   };
 
   useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+
     if (!window.recaptchaVerifier) {
       window.recaptchaVerifier = new RecaptchaVerifier(
         "recaptcha-container",
@@ -60,6 +71,16 @@ export const Login = () => {
       );
     }
   }, []);
+
+  if (!!user) {
+    return (
+      <div className="box">
+        <h1>User</h1>
+        <p>{`User ID : ${user.uid}`}</p>
+        <p>{`User Phone Number :${user.phoneNumber}`}</p>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -93,7 +114,9 @@ export const Login = () => {
               />
             </label>
             <button type="submit">Verify Code</button>
-            <button onClick={sendCode}>Resend</button>
+            <button disabled={disabled} onClick={sendVerificationCode}>
+              Resend
+            </button>
           </form>
         </>
       )}
