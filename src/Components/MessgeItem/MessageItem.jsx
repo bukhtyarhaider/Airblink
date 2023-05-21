@@ -8,13 +8,16 @@ export const MessageItem = ({ data, received }) => {
   return (
     <div
       className={
-        `message_item_container ` + `${received ? `received_message` : ``}`
+        `message_item_container ` +
+        `${received ? `received_message_container` : ``}`
       }
     >
-      <div className={`message_item ` + `${received ? `received` : ``}`}>
+      <div
+        className={`message_item ` + `${received ? `received_message` : ``}`}
+      >
         {data.message}
       </div>
-      <div>{date}</div>
+      <div className="timestamp">{date}</div>
     </div>
   );
 };

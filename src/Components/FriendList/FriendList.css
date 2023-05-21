@@ -1,15 +1,27 @@
 .friend_list {
-  border-right: 1px solid #000;
+  height: 100%;
   overflow-y: auto;
+  padding: 10px;
 }
 
 .user_item_container {
   height: 50px;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
-  background-color: lightgrey;
+  padding-left: 10px;
+  background-color: white;
   border-radius: 5px;
-  margin: 10px 5px;
+  margin-bottom: 10px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.user_item_container:hover {
+  background-color: gray;
+  color: white;
+}
+
+.user_item_container p {
+  margin-left: 10px;
 }

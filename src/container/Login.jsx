@@ -44,6 +44,7 @@ export const Login = () => {
       .then((confirmationResult) => {
         setShowOtp(true);
         setConfirmationResult(confirmationResult);
+        setDisabled(true);
       })
       .catch((error) => {
         setErrorMessage(`SMS not sent ${error.message}`);
@@ -68,6 +69,10 @@ export const Login = () => {
 
   return (
     <div>
+      <div className="box">
+        <h1>ChatBox</h1>
+        <p>Stay Connected!</p>
+      </div>
       {!!errorMessage && (
         <div className="error_container">
           <p className="error"> {errorMessage}</p>
@@ -78,12 +83,22 @@ export const Login = () => {
           <label>
             Phone Number:
             <input
+              placeholder="+923410000000"
               type="tel"
               value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => {
+                if (e.target.value.length !== 0) {
+                  setDisabled(false);
+                } else {
+                  setDisabled(true);
+                }
+                setPhoneNumber(e.target.value);
+              }}
             />
           </label>
-          <button type="submit">Send Code</button>
+          <button disabled={disabled} type="submit">
+            Login
+          </button>
         </form>
       )}
       {showOtp && (
@@ -94,7 +109,9 @@ export const Login = () => {
               <input
                 type="text"
                 value={verificationCode}
-                onChange={(e) => setVerificationCode(e.target.value)}
+                onChange={(e) => {
+                  setVerificationCode(e.target.value);
+                }}
               />
             </label>
             <button type="submit">Verify Code</button>

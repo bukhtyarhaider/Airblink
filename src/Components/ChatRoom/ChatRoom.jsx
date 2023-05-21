@@ -24,7 +24,7 @@ export const ChatRoom = ({ user, selectedUser }) => {
   if (!selectedUser) {
     return (
       <div className="empty_chat_room">
-        <p>No User Yet!</p>
+        <p>Send and Receive messages!</p>
       </div>
     );
   }
@@ -32,6 +32,7 @@ export const ChatRoom = ({ user, selectedUser }) => {
   return (
     <div className="chat_room_container">
       <h3>{messages.length ? selectedUser.phoneNumber : "Loading..."}</h3>
+      <p>{selectedUser.id}</p>
       <div className="chat_message_container">
         {messages &&
           messages.map((message) => (
