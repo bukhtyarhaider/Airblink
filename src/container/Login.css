@@ -17,6 +17,11 @@
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
+.box > p {
+  font-size: 0.9em;
+  color: gray;
+}
+
 .error {
   color: red;
   font-weight: bold;
@@ -34,7 +39,7 @@ label {
 
 input {
   padding: 0.5em;
-  margin: 1em;
+  margin-left: 1em;
   border: 1px solid #ddd;
   border-radius: 4px;
 }

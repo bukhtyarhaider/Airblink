@@ -72,6 +72,7 @@ export const Login = () => {
       <div className="box">
         <h1>ChatBox</h1>
         <p>Stay Connected!</p>
+        <p>Developed by Bukhtyar Haider</p>
       </div>
       {!!errorMessage && (
         <div className="error_container">
@@ -114,7 +115,12 @@ export const Login = () => {
                 }}
               />
             </label>
-            <button type="submit">Verify Code</button>
+            <button
+              disabled={verificationCode.length >= 6 ? false : true}
+              type="submit"
+            >
+              Verify Code
+            </button>
             <button disabled={disabled} onClick={sendVerificationCode}>
               Resend
             </button>
