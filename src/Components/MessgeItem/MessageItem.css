@@ -1,0 +1,25 @@
+.message_item_container {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.received_message {
+  align-items: flex-end;
+}
+
+.message_item {
+  padding: 5px;
+  background-color: lightgray;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.received {
+  background-color: gray;
+  color: white;
+}
