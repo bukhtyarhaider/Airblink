@@ -1,29 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./ChatRoom.css";
-import { sendMessage, getChatMessages } from "../../firebase/Firebase";
+import { sendMessage } from "../../firebase/Firebase";
 import { MessageItem } from "../MessgeItem/MessageItem";
+import { useChatMessages } from "../../Hooks/useChatMessages";
 
 export const ChatRoom = ({ user, selectedUser }) => {
   const [message, setMessage] = useState("");
-  const [chatMessage, setChatMessage] = useState([]);
+  const messages = useChatMessages(user.uid, selectedUser?.id);
 
   const onSendMessage = () => {
-    sendMessage(user.uid, selectedUser.id, message)
-      .then((response) => {
-        setChatMessage([...chatMessage, response]);
-      })
-      .finally(() => {
-        setMessage("");
-      });
+    sendMessage(user.uid, selectedUser.id, message).finally(() => {
+      setMessage("");
+    });
   };
-
-  useEffect(() => {
-    if (selectedUser) {
-      getChatMessages(user.uid, selectedUser.id).then((Response) => {
-        return setChatMessage(Response);
-      });
-    }
-  }, [selectedUser]);
 
   if (!selectedUser) {
     return (
@@ -35,10 +24,10 @@ export const ChatRoom = ({ user, selectedUser }) => {
 
   return (
     <div className="chat_room_container">
-      <h3>{chatMessage.length ? selectedUser.phoneNumber : "Loading..."}</h3>
+      <h3>{messages.length ? selectedUser.phoneNumber : "Loading..."}</h3>
       <div className="chat_message_container">
-        {chatMessage &&
-          chatMessage.map((message) => (
+        {messages &&
+          messages.map((message) => (
             <MessageItem
               key={message.id}
               data={message}
