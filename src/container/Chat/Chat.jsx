@@ -33,8 +33,13 @@ export const Chat = ({ user }) => {
   return (
     <div className="chat_container">
       <div className="chat_left_container">
+        <h3>ChatBox</h3>
         <Profile user={user} logout={onLogout} />
-        <FriendList users={users} onUserSelect={handleUserSelect} />
+        <FriendList
+          users={users}
+          selectedUser={activeUser}
+          onUserSelect={handleUserSelect}
+        />
       </div>
       <div className="chat_right_container">
         <ChatRoom user={user} selectedUser={activeUser} />

@@ -2,12 +2,15 @@ import React from "react";
 import avatar from "../../assets/avatar.png";
 import "./FriendList.css";
 
-export const FriendList = ({ users, onUserSelect }) => {
+export const FriendList = ({ users, selectedUser, onUserSelect }) => {
   return (
     <div className="friend_list">
       {users.map((user) => (
         <div
-          className="user_item_container"
+          className={
+            `user_item_container` +
+            `${user.id === selectedUser?.id ? ` selected` : ``}`
+          }
           key={user.id}
           onClick={() => onUserSelect(user)}
         >
