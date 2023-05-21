@@ -1,0 +1,29 @@
+.chat_room_container {
+  background-color: seashell;
+  padding: 20px;
+  border-radius: 20px;
+  height: 100vh;
+}
+
+.chat_message_container {
+  overflow-y: auto;
+  height: 80%;
+  background-color: antiquewhite;
+}
+
+.message_input_container {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.empty_chat_room {
+  background-color: seashell;
+  padding: 20px 5px;
+  border-radius: 20px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
