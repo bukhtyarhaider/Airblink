@@ -1,0 +1,15 @@
+.friend_list {
+  border-right: 1px solid #000;
+  overflow-y: auto;
+}
+
+.user_item_container {
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: lightgrey;
+  border-radius: 5px;
+  margin: 10px 5px;
+  cursor: pointer;
+}
