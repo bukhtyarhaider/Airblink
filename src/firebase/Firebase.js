@@ -1,7 +1,8 @@
 import { initializeApp } from "firebase/app";
 import {
   collection,
-  addDoc,
+  doc,
+  setDoc,
   getFirestore,
   getDocs,
   query,
@@ -24,7 +25,7 @@ export const db = getFirestore(app);
 
 export const addUser = async (user) => {
   try {
-    const userRef = await addDoc(collection(db, "users"), user);
+    const userRef = await setDoc(doc(db, "Users", user.id), user);
     console.log(userRef.id);
   } catch (error) {
     console.log(error);
@@ -33,7 +34,7 @@ export const addUser = async (user) => {
 
 export const getUsers = async (currentUserId) => {
   try {
-    const userSnapshot = await getDocs(collection(db, "users"));
+    const userSnapshot = await getDocs(collection(db, "Users"));
     const usersData = [];
 
     userSnapshot.forEach((doc) => {
