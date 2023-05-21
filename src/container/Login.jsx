@@ -3,10 +3,9 @@ import {
   getAuth,
   RecaptchaVerifier,
   signInWithPhoneNumber,
-  onAuthStateChanged,
 } from "firebase/auth";
 import "./Login.css";
-import { app } from "../Firebase/Firebase";
+import { addUser, app } from "../Firebase/Firebase";
 
 export const Login = () => {
   const auth = getAuth(app);
@@ -15,7 +14,6 @@ export const Login = () => {
   const [verificationCode, setVerificationCode] = useState("");
   const [confirmationResult, setConfirmationResult] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
-  const [user, setUser] = useState(null);
   const [disabled, setDisabled] = useState(true);
 
   const verifyCode = (e) => {
@@ -26,10 +24,10 @@ export const Login = () => {
       confirmationResult
         .confirm(verificationCode)
         .then((result) => {
-          setUser(result.user);
-          console.log(result.user);
-          console.log(result.user.phoneNumber);
-          console.log(result.user.uid);
+          addUser({
+            id: result.user.uid,
+            phoneNumber: result.user.phoneNumber,
+          });
         })
         .catch((error) => {
           setDisabled(false);
@@ -53,10 +51,6 @@ export const Login = () => {
   };
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      setUser(user);
-    });
-
     if (!window.recaptchaVerifier) {
       window.recaptchaVerifier = new RecaptchaVerifier(
         "recaptcha-container",
@@ -71,16 +65,6 @@ export const Login = () => {
       );
     }
   }, []);
-
-  if (!!user) {
-    return (
-      <div className="box">
-        <h1>User</h1>
-        <p>{`User ID : ${user.uid}`}</p>
-        <p>{`User Phone Number :${user.phoneNumber}`}</p>
-      </div>
-    );
-  }
 
   return (
     <div>
