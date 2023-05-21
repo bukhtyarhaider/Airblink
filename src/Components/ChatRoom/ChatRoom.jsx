@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./ChatRoom.css";
 import { sendMessage } from "../../firebase/Firebase";
 import { MessageItem } from "../MessgeItem/MessageItem";
@@ -7,12 +7,19 @@ import { useChatMessages } from "../../Hooks/useChatMessages";
 export const ChatRoom = ({ user, selectedUser }) => {
   const [message, setMessage] = useState("");
   const messages = useChatMessages(user.uid, selectedUser?.id);
+  const messagesEndRef = useRef(null);
 
   const onSendMessage = () => {
     sendMessage(user.uid, selectedUser.id, message).finally(() => {
       setMessage("");
     });
   };
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   if (!selectedUser) {
     return (
@@ -34,7 +41,9 @@ export const ChatRoom = ({ user, selectedUser }) => {
               received={message.senderId !== user.uid}
             />
           ))}
+        <div ref={messagesEndRef} />
       </div>
+
       <div className="message_input_container">
         <textarea
           value={message}
