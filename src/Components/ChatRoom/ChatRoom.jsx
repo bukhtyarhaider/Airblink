@@ -10,9 +10,18 @@ export const ChatRoom = ({ user, selectedUser }) => {
   const messagesEndRef = useRef(null);
 
   const onSendMessage = () => {
+    if (!message.trim()) return;
+
     sendMessage(user.uid, selectedUser.id, message).finally(() => {
       setMessage("");
     });
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      onSendMessage();
+    }
   };
 
   useEffect(() => {
@@ -49,6 +58,7 @@ export const ChatRoom = ({ user, selectedUser }) => {
         <textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={handleKeyDown}
           style={{ width: "100%" }}
         />
         <button onClick={onSendMessage}>send</button>
