@@ -2,11 +2,11 @@
   display: flex;
   flex-direction: column;
   padding: 10px;
-  justify-content: flex-end;
+  align-items: flex-end;
 }
 
 .received_message_container {
-  align-items: flex-end;
+  align-items: flex-start;
 }
 
 .message_item {
@@ -17,11 +17,18 @@
   color: #fff;
   background-color: gray;
   word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-all;
+  overflow: auto;
 }
 
 .received_message {
   background-color: #f3f3f3;
   color: #000;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-all;
+  overflow: auto;
 }
 
 .timestamp {
